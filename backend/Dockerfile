@@ -5,3 +5,5 @@ RUN go get github.com/go-sql-driver/mysql
 # mysqlにつなぐために必要
 RUN go get github.com/jinzhu/gor
 # db接続に必要
+
+#使ってない！！！
