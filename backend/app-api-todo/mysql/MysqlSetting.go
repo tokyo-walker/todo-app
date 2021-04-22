@@ -8,17 +8,17 @@ import (
 	"time"
 )
 
-type MysqlSetting struct {}
+type Setting struct {}
 
 // 引数に自分を入れないと他のクラスで使えない。
 // function名の二個目目が戻り値
-func (setting MysqlSetting) Connect() (database *gorm.DB)  {
+func (setting Setting) Connect() (database *gorm.DB)  {
 	fmt.Println("hello hello")
 	DBMS := "mysql"
 	USER := "mysql"
 	PASS := "mysql"
 	PROTOCOL := "tcp(127.0.0.1:3307)"
-	DBNAME := "diary"
+	DBNAME := "todo"
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
 
 	count := 0

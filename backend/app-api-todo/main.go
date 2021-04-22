@@ -7,12 +7,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 
-	// _操作はこのパッケージをインポートするだけでパッケージの中の関数を直接使うわけではなく、このパッケージの中にあるinit関数をコールします。
-	"github.com/jinzhu/gorm"
+	"./mysql"
 	"log"
 	"net/http"
-	"time"
-
 )
 
 const SUCCESS_MSG = "{status : 200}"
@@ -23,7 +20,8 @@ func main() {
 }
 
 func AddTodo(w rest.ResponseWriter, r *rest.Request) () {
-	db := dbConn()
+	var setting mysql.Setting
+	db := setting.Connect()
 	todo := Todo{}
 	title := r.PathParam("title")
 	text := r.PathParam("text")
@@ -41,7 +39,8 @@ func AddTodo(w rest.ResponseWriter, r *rest.Request) () {
 }
 
 func UpdateTodo(w rest.ResponseWriter, r *rest.Request) {
-	db := dbConn()
+	var setting mysql.Setting
+	db := setting.Connect()
 	todoById := Todo{}
 
 	id := r.PathParam("id")
@@ -58,7 +57,8 @@ func UpdateTodo(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func UpdateTodoText(w rest.ResponseWriter, r *rest.Request) {
-	db := dbConn()
+	var setting mysql.Setting
+	db := setting.Connect()
 	todo := Todo{}
 
 	id := r.PathParam("id")
@@ -70,16 +70,12 @@ func UpdateTodoText(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func GetAllTodos(w rest.ResponseWriter, r *rest.Request) {
-	//var setting mysql.MysqlSetting
-	//db := setting.Connect()
+	var setting mysql.Setting
+	db := setting.Connect()
 	fmt.Println("get all todos")
-	db := dbConn()
 
 	var todos []Todo
 	db.Find(&todos)
-
-	// json
-	//json, _ := json.Marshal(&todos)
 
 	fmt.Println(todos)
 
@@ -89,7 +85,8 @@ func GetAllTodos(w rest.ResponseWriter, r *rest.Request) {
 }
 
 func DeleteTodo(w rest.ResponseWriter, r *rest.Request) {
-	db := dbConn()
+	var setting mysql.Setting
+	db := setting.Connect()
 	todo := Todo{}
 
 	id := r.PathParam("id")
@@ -107,11 +104,11 @@ func setApiServe() {
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
 	router, err := rest.MakeRouter(
-		rest.Get("/get", GetAllTodos),
-		rest.Post("/add/:title/:text", AddTodo),
-		rest.Put("/update/:id", UpdateTodo),
-		rest.Put("/modify/:id/:text", UpdateTodoText),
-		rest.Delete("/delete/:id", DeleteTodo),
+		rest.Get("/get", GetAllTodos), //ok
+		rest.Post("/add/:title/:text", AddTodo), //ok
+		rest.Put("/update/:id", UpdateTodo), //?
+		rest.Put("/modify/:id/:text", UpdateTodoText), //ok
+		rest.Delete("/delete/:id", DeleteTodo), //ok
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -120,37 +117,6 @@ func setApiServe() {
 	log.Fatal(http.ListenAndServe(":8080", api.MakeHandler()))
 }
 
-func dbConn() (database *gorm.DB) {
-	DBMS := "mysql"
-	USER := "mysql"
-	PASS := "mysql"
-	PROTOCOL := "tcp(127.0.0.1:3307)"
-	DBNAME := "todo"
-	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
-
-	count := 0
-	db, err := gorm.Open(DBMS, CONNECT)
-	if err != nil {
-		for {
-			if err == nil {
-				fmt.Println("")
-				break
-			}
-			fmt.Print(".")
-			time.Sleep(time.Second)
-			count++
-			if count > 180 {
-				fmt.Println("")
-				fmt.Println("DB接続失敗")
-				panic(err)
-			}
-			db, err = gorm.Open(DBMS, CONNECT)
-		}
-	}
-	fmt.Println("DB接続成功")
-
-	return db
-}
 
 type Todo struct {
 	ID       int
