@@ -9,15 +9,7 @@ $ docker-compose build
 ### コンテナー立ち上げ
 
 ```
-$ docker-compose up -d
-```
-
-### apiの確認
-
-```
-$ docker-compose exec api go run main.go
-
-Hello golang from docker!
+$ docker-compose up
 ```
 
 ### mysqlの中に入る
@@ -32,7 +24,7 @@ $ docker exec -it bc8 bash
 $ mysql -u mysql -p -P 3307
 Enter password: mysql
 
-mysql> use diary;
+mysql> use todo;
 mysql> show tables;
 
 ```
@@ -54,4 +46,4 @@ https://zenn.dev/konnyaku256/scraps/6e8f78642cde2c
 https://qiita.com/zurazurataicho/items/4a95e0daf0d960cfc2f7
 https://qiita.com/munieru_jp/items/f305931aca92ef796b3b
 
-```# todo-app
+```
