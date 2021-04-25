@@ -117,7 +117,6 @@ func setApiServe() {
 	log.Fatal(http.ListenAndServe(":8080", api.MakeHandler()))
 }
 
-
 type Todo struct {
 	ID       int
 	Title    string

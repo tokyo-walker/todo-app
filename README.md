@@ -2,19 +2,19 @@
 ## 環境構築
 ### コンテナを作成する
 
-```
+```shell script
 $ docker-compose build
 ```
 
 ### コンテナー立ち上げ
 
-```
+```shell script
 $ docker-compose up
 ```
 
 ### mysqlの中に入る
 
-```
+```shell script
 $ docker ps 
 
 CONTAINER ID        IMAGE                       
@@ -27,6 +27,27 @@ Enter password: mysql
 mysql> use todo;
 mysql> show tables;
 
+```
+
+## front end 
+
+### Create app by Vite
+
+```shell script
+npm init @vitejs/app
+npm init @vitejs/app todo-project --template vue
+cd todo-project
+npm install
+```
+
+
+### Run app
+
+
+```shell script
+cd frontend/todo-project
+npm install
+npm run dev # you can access http://localhost:3000
 ```
 
 
