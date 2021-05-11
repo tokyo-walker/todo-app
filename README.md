@@ -39,10 +39,15 @@ npm init @vitejs/app todo-project --template vue
 cd todo-project
 npm install
 ```
+### Run go app
 
+```go
+cd /todo-app/backend/app-api-todo
+go build main.go
+./main
+```
 
-### Run app
-
+### Run front app
 
 ```shell script
 cd frontend/todo-project
@@ -66,5 +71,8 @@ https://www.kwbtblog.com/entry/2020/04/07/055735
 https://zenn.dev/konnyaku256/scraps/6e8f78642cde2c
 https://qiita.com/zurazurataicho/items/4a95e0daf0d960cfc2f7
 https://qiita.com/munieru_jp/items/f305931aca92ef796b3b
+
+vite
+https://vitejs.dev/guide/#scaffolding-your-first-vite-project
 
 ```
